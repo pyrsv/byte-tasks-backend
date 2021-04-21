@@ -1,15 +1,14 @@
-import express from 'express';
+import express, { NextFunction, Response } from 'express';
 import mongoose from 'mongoose';
+import passport from 'passport';
 import * as dotenv from 'dotenv';
+import { authRoutes } from './components/Auth/authRoutes';
+import { passportInstance } from './components/Auth/passport';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
-app.get('/', (request, response) => {
-  console.log('request', request);
-  response.send('Hello world!');
-});
 
 const init = async () => {
   await mongoose.connect(
@@ -23,7 +22,20 @@ const init = async () => {
   );
   // console.log('res', res);
 
+  // eslint-disable-next-line no-console
   app.listen(port, () => console.log(`Running on port: ${port}`));
 };
 
-init();
+void init();
+
+app.use(express.json());
+
+app.use(passport.initialize());
+passportInstance(passport);
+
+app.use('/api/auth', authRoutes);
+
+app.use((error: unknown, _req, res: Response, next: NextFunction) => {
+  res.status(500).json({ error: error.toString() });
+  next();
+});
