@@ -1,7 +1,10 @@
 import express, { NextFunction, Response } from 'express';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 import * as dotenv from 'dotenv';
+
 import { authRoutes } from './components/Auth/authRoutes';
 import { passportInstance } from './components/Auth/passport';
 
@@ -26,6 +29,33 @@ const init = async () => {
   app.listen(port, () => console.log(`Running on port: ${port}`));
 };
 
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Byte Education tasks app',
+      version: '1.0.0',
+      description:
+        'This is a simple CRUD API application made with Express and documented with Swagger',
+      contact: {
+        name: 'Byte Education',
+      },
+    },
+    servers: [
+      {
+        url: 'http://localhost:5000',
+      },
+    ],
+  },
+  // defenition: {},
+  apis: [
+    '**/*.ts',
+  ],
+};
+
+// eslint-disable-next-line
+const specs = swaggerJsDoc(options);
+
 void init();
 
 app.use(express.json());
@@ -33,6 +63,11 @@ app.use(express.json());
 app.use(passport.initialize());
 passportInstance(passport);
 
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(specs, { explorer: true }),
+);
 app.use('/api/auth', authRoutes);
 
 app.use((error: unknown, _req, res: Response, next: NextFunction) => {

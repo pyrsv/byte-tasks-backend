@@ -7,6 +7,13 @@ import { registerController, loginController, getUserController } from './authCo
 
 const router = Router();
 
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Retrieve a list of JSONPlaceholder users
+ *     description: Test.
+*/
 router.post('/register', validationMiddleware(registerValidationSchema), registerController);
 
 router.post('/login', validationMiddleware(loginValidationSchema), loginController);
