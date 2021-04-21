@@ -15,7 +15,11 @@ const port = process.env.PORT || 5000;
 
 const init = async () => {
   await mongoose.connect(
-    `mongodb+srv://${process.env.MONGO_LOGIN}:${process.env.MONGO_PASSWORD}@tasks-app.kddnk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+    `mongodb+srv://${
+      process.env.MONGO_LOGIN
+    }:${
+      process.env.MONGO_PASSWORD
+    }@tasks-app.kddnk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -37,14 +41,10 @@ const options = {
       version: '1.0.0',
       description:
         'This is a simple CRUD API application made with Express and documented with Swagger',
-      contact: {
-        name: 'Byte Education',
-      },
+      contact: { name: 'Byte Education' },
     },
     servers: [
-      {
-        url: 'http://localhost:5000',
-      },
+      { url: 'http://localhost:5000' },
     ],
   },
   // defenition: {},

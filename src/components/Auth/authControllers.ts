@@ -1,16 +1,19 @@
-import { NextFunction, Request, response, Response } from 'express';
+import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
-import _ from 'lodash';
 import * as dotenv from 'dotenv';
 
-import { User } from './UserModel';
-import { IUser } from './types'
 import jwt from 'jsonwebtoken';
+import { User } from './UserModel';
+import { IUser } from './types';
 
-dotenv.config()
+dotenv.config();
 
-export const registerController = async (req: Request, res: Response, next: NextFunction) => {
-  const {body: userRequest} = req;
+export const registerController: RequestHandler<
+  never,
+  Record<string, string> | IUser,
+  IUser
+> = async (req, res, next) => {
+  const { body: userRequest } = req;
 
   try {
     const newUser = new User(userRequest);
@@ -26,51 +29,57 @@ export const registerController = async (req: Request, res: Response, next: Next
 
     res.status(201).json(newUser);
   } catch (err) {
-    next(err)
+    next(err);
   }
 };
 
-export const loginController = async (req: Request, res: Response, next: NextFunction) => {
-  const {email, password} = req.body;
+export const loginController: RequestHandler<
+  never,
+  Record<string, string>,
+  IUser
+> = async (req, res, next) => {
+  const { body: { email, password } } = req;
 
   try {
     const maybeCustomer = await User.findOne({ email }).select('+password');
-    console.log(`maybeCustomer`, maybeCustomer)
 
-    if(!maybeCustomer) {
-      return res.status(401).json({message: 'Invalid login or password'})
+    if (!maybeCustomer) {
+      return res.status(401).json({ message: 'Invalid login or password' });
     }
 
+    const isPasswordMatch = await bcrypt.compare(password, maybeCustomer.password);
 
-    const isPasswordMatch = await bcrypt.compare(password, maybeCustomer.password)
-
-    if(!isPasswordMatch) {
-      return res.status(401).json({message: 'Invalid login or password'})
+    if (!isPasswordMatch) {
+      return res.status(401).json({ message: 'Invalid login or password' });
     }
 
-    jwt.sign(
+    return jwt.sign(
       {
         id: maybeCustomer._id,
-      }, 
+      },
       process.env.SECRET,
       {
         expiresIn: 30000,
       },
-      (_err, token) => {
-        return res.json({
-          token
-        });
-      }
-    )
-  } catch(err) {
-    next(err)
-  }
-}
-
-export const getUserController = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    res.status(200).json(req.user)
+      (_err, token) => res.json({
+        token,
+      }),
+    );
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
+
+export const getUserController:RequestHandler<
+  never,
+  IUser,
+  IUser
+> = (req, res, next) => {
+  try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return res.status(200).json(req.user);
+  } catch (err) {
+    return next(err);
+  }
+};

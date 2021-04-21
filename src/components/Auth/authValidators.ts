@@ -9,4 +9,4 @@ export const registerValidationSchema = Joi.object().keys({
 export const loginValidationSchema = Joi.object().keys({
   email: Joi.string().required().email(),
   password: Joi.string().required(),
-})
+});

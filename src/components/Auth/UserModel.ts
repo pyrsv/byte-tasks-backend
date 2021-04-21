@@ -24,8 +24,6 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.set('toJSON', {
-  transform: (_doc: unknown, ret: IUser)  => _.omit(ret, ['password']),
-});
+UserSchema.set('toJSON', { transform: (_doc: unknown, ret: IUser) => _.omit(ret, ['password']) });
 
 export const User = model<IUser>('user', UserSchema);
