@@ -2,5 +2,5 @@
   "watch": ["src"],
   "ext": "ts,json",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "ts-node ./src/index.ts"
+  "exec": "TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true ts-node ./src/index.ts"
 }

@@ -15,6 +15,7 @@
     "comma-dangle": ["warn", "always-multiline"],
     "no-void": "off",
     "no-console": "warn",
+    "no-unused-vars": ["error", { "args": "all", "argsIgnorePattern": "^_" }],
     "prefer-destructuring": [
       "error",
       {

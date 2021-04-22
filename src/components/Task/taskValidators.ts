@@ -3,6 +3,9 @@ import Joi from 'joi';
 export const createTaskValidator = Joi.object().keys({
   name: Joi.string().required(),
   description: Joi.string(),
-  timeTracked: Joi.number().required(),
-  isActive: Joi.boolean().required(),
+});
+
+export const updateTaskValidator = Joi.object().keys({
+  timeTracked: Joi.number(),
+  isActive: Joi.boolean(),
 });

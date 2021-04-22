@@ -6,6 +6,7 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import * as dotenv from 'dotenv';
 
 import { authRoutes } from './components/Auth/authRoutes';
+import { taskRoutes } from './components/Task/taskRoutes';
 import { passportInstance } from './components/Auth/passport';
 
 dotenv.config();
@@ -56,10 +57,9 @@ const options = {
 // eslint-disable-next-line
 const specs = swaggerJsDoc(options);
 
-void init();
+init();
 
 app.use(express.json());
-
 app.use(passport.initialize());
 passportInstance(passport);
 
@@ -68,9 +68,13 @@ app.use(
   swaggerUi.serve,
   swaggerUi.setup(specs, { explorer: true }),
 );
+
+app.use('/api/task', taskRoutes);
 app.use('/api/auth', authRoutes);
 
 app.use((error: unknown, _req, res: Response, next: NextFunction) => {
+  // eslint-disable-next-line no-console
+  console.log('error', error);
   res.status(500).json({ error: error.toString() });
   next();
 });

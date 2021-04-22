@@ -2,16 +2,16 @@ import { Schema, model } from 'mongoose';
 import { ITask } from './types';
 
 const UserSchema = new Schema({
-  taskName: {
+  name: {
     type: String,
     required: true,
   },
   description: {
     type: String,
+    default: '',
   },
   timeTracked: {
     type: Number,
-    required: true,
   },
   userId: {
     type: Schema.Types.ObjectId,
@@ -19,9 +19,13 @@ const UserSchema = new Schema({
   },
   isActive: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
     type: Date,
     default: Date.now,
   },

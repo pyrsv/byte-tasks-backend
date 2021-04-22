@@ -58,9 +58,7 @@ export const loginController: RequestHandler<
         id: maybeCustomer._id,
       },
       process.env.SECRET,
-      {
-        expiresIn: 30000,
-      },
+      {},
       (_err, token) => res.json({
         token,
       }),

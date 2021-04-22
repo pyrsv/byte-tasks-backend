@@ -4,6 +4,7 @@ export interface ITask extends Document {
   name: string,
   descriptiom: string,
   timeTracked: number,
-  createdAt: string,
   isActive: boolean,
+  createdAt: string,
+  updatedAt: string,
 }
