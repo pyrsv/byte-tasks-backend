@@ -73,7 +73,7 @@ const options = {
       contact: { name: 'Byte Education' },
     },
     servers: [
-      { url: 'http://localhost:5000' },
+      { url: process.env.MODE === 'dev' ? `${process.env.HOST}:${port}` : process.env.HOST },
     ],
   },
   // defenition: {},
@@ -81,7 +81,7 @@ const options = {
   //   // '**/*.ts',
   //   './src/docs/parameters.yaml',
   // ],
-  apis: [path.join(__dirname, './docs/test.js')],
+  apis: [path.join(__dirname, './docs/test.ts')],
 };
 
 // eslint-disable-next-line
