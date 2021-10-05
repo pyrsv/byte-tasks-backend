@@ -81,7 +81,7 @@ const options = {
   //   // '**/*.ts',
   //   './src/docs/parameters.yaml',
   // ],
-  apis: [path.join(__dirname, './docs/test.ts')],
+  apis: [path.join(__dirname, './docs/swagger-spec.*')],
 };
 
 // eslint-disable-next-line
