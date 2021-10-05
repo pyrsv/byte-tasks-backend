@@ -33,7 +33,6 @@
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/lodash": "^4.14.168",
-    "@types/mongoose": "^5.11.97",
     "@types/passport": "^1.0.6",
     "@types/passport-jwt": "^3.0.5",
     "@types/swagger-jsdoc": "^6.0.0",

@@ -28,8 +28,9 @@ const init = async () => {
         process.env.MONGO_PASSWORD
       }@tasks-app.kddnk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
       {
+        useNewUrlParser: true,
         // useNewUrlParser: true,
-        useUnifiedTopology: true,
+        // useUnifiedTopology: true,
         // useFindAndModify: false,
         // useCreateIndex: true,
       },
