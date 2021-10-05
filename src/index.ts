@@ -10,6 +10,9 @@ import * as dotenv from 'dotenv';
 import { authRoutes } from './components/Auth/authRoutes';
 import { taskRoutes } from './components/Task/taskRoutes';
 import { passportInstance } from './components/Auth/passport';
+import { docsRoutes } from './components/Docs/docsRoutes';
+import cors from 'cors';
+
 // import { MongoClient } from 'mongodb';
 
 // const { mo } = mongoose;
@@ -78,7 +81,7 @@ const options = {
   //   // '**/*.ts',
   //   './src/docs/parameters.yaml',
   // ],
-  apis: [path.join(__dirname, './docs/**/*.yaml')],
+  apis: [path.join(__dirname, './docs/test.js')],
 };
 
 // eslint-disable-next-line
@@ -98,6 +101,9 @@ app.use(
 
 app.use('/api/task', taskRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/docs', docsRoutes);
+app.use(cors());
 
 app.use((error: unknown, _req, res: Response, next: NextFunction) => {
   // eslint-disable-next-line no-console
