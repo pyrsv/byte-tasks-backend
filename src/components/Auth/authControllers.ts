@@ -20,7 +20,7 @@ export const registerController: RequestHandler<
     const isUserExists = await User.findOne({ email: userRequest.email });
 
     if (isUserExists) {
-      res.json({ email: 'User with this email already exists' });
+      res.status(400).json({ email: 'User with this email already exists' });
     }
 
     const hashedPassword = await bcrypt.hash(userRequest.password, 10);

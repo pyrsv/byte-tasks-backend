@@ -1,5 +1,7 @@
 import express, { NextFunction, Response } from 'express';
+import path from 'path';
 import mongoose from 'mongoose';
+
 import passport from 'passport';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
@@ -8,6 +10,9 @@ import * as dotenv from 'dotenv';
 import { authRoutes } from './components/Auth/authRoutes';
 import { taskRoutes } from './components/Task/taskRoutes';
 import { passportInstance } from './components/Auth/passport';
+// import { MongoClient } from 'mongodb';
+
+// const { mo } = mongoose;
 
 dotenv.config();
 
@@ -15,33 +20,52 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const init = async () => {
-  await mongoose.connect(
-    `mongodb+srv://${
-      process.env.MONGO_LOGIN
-    }:${
-      process.env.MONGO_PASSWORD
-    }@tasks-app.kddnk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
-    },
-  );
-  // console.log('res', res);
+  try {
+    await mongoose.connect(
+      `mongodb+srv://${
+        process.env.MONGO_LOGIN
+      }:${
+        process.env.MONGO_PASSWORD
+      }@tasks-app.kddnk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        // useFindAndModify: false,
+        // useCreateIndex: true,
+      },
+    );
+    // eslint-disable-next-line no-console
+    app.listen(port, () => console.log(`Running on port: ${port}`));
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log('Connection error:', err);
+  }
 
   // eslint-disable-next-line no-console
-  app.listen(port, () => console.log(`Running on port: ${port}`));
+  // try {
+  //   const uri = `mongodb+srv://pyrsv:${
+  //     process.env.MONGO_PASSWORD
+  //   }@tasks-app.kddnk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+  //   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  //   client.connect(async (a) => {
+  //     console.log(`a`, a)
+  //     // eslint-disable-next-line no-console
+  //     await app.listen(port, () => console.log(`Running on port: ${port}`));
+  //   });
+  // } catch (err) {
+  //   // eslint-disable-next-line no-console
+  //   console.log('err', err);
+  // }
 };
 
 const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Byte Education tasks app',
+      title: 'Byte Education Tasks App',
       version: '1.0.0',
       description:
-        'This is a simple CRUD API application made with Express and documented with Swagger',
+        'This is a simple CRUD API application for educational purposes',
       contact: { name: 'Byte Education' },
     },
     servers: [
@@ -49,9 +73,11 @@ const options = {
     ],
   },
   // defenition: {},
-  apis: [
-    '**/*.ts',
-  ],
+  // apis: [
+  //   // '**/*.ts',
+  //   './src/docs/parameters.yaml',
+  // ],
+  apis: [path.join(__dirname, './docs/**/*.yaml')],
 };
 
 // eslint-disable-next-line

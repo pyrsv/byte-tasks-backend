@@ -129,7 +129,7 @@ export const deleteTaskContoller: RequestHandler = async (req, res, next) => {
       return res.status(404).json({ message: `Task id ${id} not found` });
     }
 
-    return res.status(204);
+    return res.status(204).json();
   } catch (err) {
     next(err);
   }

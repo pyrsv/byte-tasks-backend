@@ -1,6 +1,6 @@
 {
   "watch": ["src"],
-  "ext": "ts,json",
+  "ext": "ts,json,yaml",
   "ignore": ["src/**/*.spec.ts"],
   "exec": "TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true ts-node ./src/index.ts"
 }

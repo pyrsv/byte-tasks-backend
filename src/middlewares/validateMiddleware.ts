@@ -11,6 +11,8 @@ export const validationMiddleware = (schema: Joi.Schema): RequestHandler =>
 
       next();
     } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log('err in validationMiddleware', err);
       res.status(400).json(err);
     }
   };
