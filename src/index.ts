@@ -89,6 +89,8 @@ const specs = swaggerJsDoc(options);
 
 init();
 
+app.use(cors());
+
 app.use(express.json());
 app.use(passport.initialize());
 passportInstance(passport);
@@ -103,7 +105,6 @@ app.use('/api/task', taskRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/docs', docsRoutes);
-app.use(cors());
 
 app.use((error: unknown, _req, res: Response, next: NextFunction) => {
   // eslint-disable-next-line no-console
