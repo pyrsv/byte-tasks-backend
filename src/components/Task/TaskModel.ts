@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { ITask } from './types';
 
-const UserSchema = new Schema({
+const TaskSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -21,6 +21,10 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  isFinished: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -31,4 +35,4 @@ const UserSchema = new Schema({
   },
 });
 
-export const Task = model<ITask>('task', UserSchema);
+export const Task = model<ITask>('task', TaskSchema);

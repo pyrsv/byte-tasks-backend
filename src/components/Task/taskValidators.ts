@@ -8,4 +8,5 @@ export const createTaskValidator = Joi.object().keys({
 export const updateTaskValidator = Joi.object().keys({
   timeTracked: Joi.number(),
   isActive: Joi.boolean(),
+  isFinished: Joi.boolean(),
 });

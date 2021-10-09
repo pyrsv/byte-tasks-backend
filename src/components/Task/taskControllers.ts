@@ -2,7 +2,21 @@ import { RequestHandler } from 'express';
 import mongoose from 'mongoose';
 import { Task } from './TaskModel';
 // import { taskRoutes } from './taskRoutes';
-// import { ITask } from './types';
+import { ITask } from './types';
+
+const getTaskWithTimeTracked = (task: ITask): any => {
+  const updated = new Date(task.updatedAt);
+  const now = new Date();
+
+  const diff = now.getTime() - updated.getTime();
+
+  const taskWithTimeTracked = {
+    ...task.toObject(),
+    timeTracked: task.timeTracked + diff,
+  };
+
+  return taskWithTimeTracked;
+};
 
 export const createTaskController: RequestHandler = async (
   req, res, next,
@@ -33,7 +47,16 @@ export const getTasksCollectionController: RequestHandler = async (
     const { user: { _id } } = req;
 
     const tasks = await Task.find({ userId: _id });
-    return res.status(200).send(tasks);
+
+    const taskWithTimeTracked = tasks.map((task) => {
+      if (task.isActive) {
+        return getTaskWithTimeTracked(task);
+      }
+
+      return task;
+    });
+
+    return res.status(200).send(taskWithTimeTracked);
   } catch (err) {
     return next(err);
   }
@@ -129,7 +152,7 @@ export const deleteTaskContoller: RequestHandler = async (req, res, next) => {
       return res.status(404).json({ message: `Task id ${id} not found` });
     }
 
-    return res.status(204).json();
+    return res.status(204).json({});
   } catch (err) {
     next(err);
   }
