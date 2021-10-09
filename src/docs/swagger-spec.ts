@@ -98,7 +98,7 @@
  *       parameters:
  *         - in: path
  *           name: taskId
- *       summary: Get all tasks list.
+ *       summary: Get task by id.
  *       consumes:
  *         - "application/json"
  *       produces:
@@ -114,7 +114,7 @@
  *       parameters:
  *         - in: path
  *           name: taskId
- *       summary: Create task.
+ *       summary: Edit task.
  *       consumes:
  *         - "application/json"
  *       produces:
@@ -138,7 +138,7 @@
  *       parameters:
  *         - in: path
  *           name: taskId
- *       summary: Create task.
+ *       summary: Delete task.
  *       consumes:
  *         - "application/json"
  *       produces:
