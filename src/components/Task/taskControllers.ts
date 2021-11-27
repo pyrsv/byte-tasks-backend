@@ -117,18 +117,22 @@ export const editTaskController: RequestHandler = async (req, res, next) => {
 
     const now = new Date();
     const { updatedAt, timeTracked } = task;
-    const { isActive } = body;
+    const { isActive, timeTracked: updatedTimeTracked } = body;
 
     const updates = {
       ...body,
     };
 
     if (!isActive) {
-      updates.timeTracked = timeTracked + (now.getTime() - new Date(updatedAt).getTime());
+      updates.timeTracked = updatedTimeTracked === undefined
+        ? timeTracked + (now.getTime() - new Date(updatedAt).getTime())
+        : 0;
     }
 
+    // console.log(`updates`, updates);
+
     const updatedTask = await Task.findByIdAndUpdate(
-      id, { ...updates, updatedAt: new Date().toJSON() }, { new: false },
+      id, { ...updates, updatedAt: new Date().toJSON() }, { new: true },
     );
 
     return res.status(200).json(updatedTask);
