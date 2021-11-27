@@ -214,7 +214,7 @@ export const getDocsController: RequestHandler = async (_req, res) => {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/definitions/CreateTaskRequest',
+                  $ref: '#/definitions/UpdateTaskRequest',
                 },
               },
             },
@@ -307,6 +307,25 @@ export const getDocsController: RequestHandler = async (_req, res) => {
           description: {
             type: 'string',
             example: 'Some description',
+          },
+        },
+      },
+      UpdateTaskRequest: {
+        summary: 'Update task.',
+        type: 'object',
+        required: [],
+        properties: {
+          isActive: {
+            type: 'boolean',
+            example: true,
+          },
+          isFinished: {
+            type: 'boolean',
+            example: false,
+          },
+          timeTracked: {
+            type: 'number',
+            example: 0,
           },
         },
       },
